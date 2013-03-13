@@ -1,0 +1,33 @@
+= pg_enum
+
+Adding enum type support to ActiveRecord's PostgreSQL adapter.
+
+I recommend validating your input via validates_inclusion_of.
+
+For example:
+
+ class Sport < ActiveRecord::Base
+  validates_presence_of :type, :in => ['hockey','football','soccer']
+ end
+
+
+And you can also use your types in migrations like so:
+ def self.up
+  create_enum :sports_type, :values => ['hockey','football','soccer]
+  create_table :sports do |t|
+   t.sports_type :type
+  end
+ end
+
+ def self.down
+  drop_table :sports #have to drop all dependencies first
+  drop_enum :sports_type
+ end
+
+== Note on Patches/Pull Requests
+ 
+If you fix stuff, I'll probably take it.
+
+
+== Copyright
+Just give credit where it's due.
