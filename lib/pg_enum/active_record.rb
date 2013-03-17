@@ -1,8 +1,43 @@
 module ActiveRecord
+
+  class SchemaDumper
+
+    alias __enum_tables tables
+
+    def tables(stream)
+      @connection.enum_types.each do |typename, values|
+        stream.puts "  create_enum #{typename.inspect}, :values => #{values.inspect}"
+      end
+      stream.puts
+      __enum_tables(stream)
+    end
+
+  end
+
+  class Migration
+
+    class CommandRecorder
+
+      def create_enum(*args)
+        record(:create_enum, args)
+      end
+
+      def drop_enum(*args)
+        record(:drop_enum, args)
+      end
+
+      def invert_create_enum(args)
+        [:drop_enum, [args.first]]
+      end
+
+    end
+
+  end
+
   module ConnectionAdapters
 
-    # TODO: implement schema dumper
     # TODO: implement commandrecorder reversibility
+    #
 
     module SchemaStatements
 
@@ -19,7 +54,7 @@ module ActiveRecord
       end
 
       def drop_enum(enum_name)
-        execute "drop type #{enum_name}"
+        execute "DROP TYPE #{enum_name}"
       end
 
     end
