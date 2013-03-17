@@ -7,8 +7,8 @@ begin
     gem.name = "pg_enum"
     gem.summary     = "Adds native enum support to the Rails3 ActiveRecord PostgreSQL adapter"
     gem.description = gem.summary
-    gem.homepage = "http://github.com/bradfordw/pg_enum"
-    gem.authors = ["BradfordW"]
+    gem.homepage = "http://github.com/fredrikroos/pg_enum"
+    gem.authors = ["BradfordW", "Fredrik Roos"]
 
   end
   Jeweler::GemcutterTasks.new
